@@ -49,7 +49,7 @@ jobs:
 
     - name: Activate SA
       run: |
-        echo ${{ secrets.TF_SERVICE_ACCOUNT }} | base64 -d > sa.json
+        echo "${{ secrets.TF_SERVICE_ACCOUNT }}" | base64 -d > sa.json
         gcloud auth activate-service-account --key-file sa.json
 
     # Setup gcloud CLI
