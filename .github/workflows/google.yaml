@@ -22,13 +22,15 @@ on:
 
 # Environment variables available to all jobs and steps in this workflow
 env:
-  GKE_PROJECT: ${{ secrets.PROJECT_ID }}
+  #GKE_PROJECT: ${{ secrets.PROJECT_ID }}
+  GKE_PROJECT: anz-insto-training
   GITHUB_SHA: ${{ github.sha }}
   GKE_ZONE: australia-southeast1
   GKE_CLUSTER: devsecol-cluster
   IMAGE: ricardo-gke-test
   REGISTRY_HOSTNAME: gcr.io
   DEPLOYMENT_NAME: ricardo-gke-test
+  TF_SA_EMAIL: terraform-editor@anz-insto-training.iam.gserviceaccount.com
 
 jobs:
   setup-build-publish-deploy:
@@ -49,7 +51,7 @@ jobs:
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
         version: '270.0.0'
-        service_account_email: ${{ secrets.TF_SERVICE_ACCOUNT_EMAIL }}
+        service_account_email: ${{ $TF_SA_EMAIL }}
         service_account_key: ${{ secrets.TF_SERVICE_ACCOUNT }}
 
     # Configure docker to use the gcloud command-line tool as a credential helper
@@ -69,7 +71,6 @@ jobs:
       run: |
         docker images
         echo "$REGISTRY_HOSTNAME"/"$GKE_PROJECT"/"$IMAGE":"$GITHUB_SHA" > debug.txt
-        echo $GKE_PROJECT >> debug.txt
         cat debug.txt 
 
     # Push the Docker image to Google Container Registry
