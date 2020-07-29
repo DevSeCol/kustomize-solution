@@ -28,7 +28,7 @@ env:
   GKE_ZONE: australia-southeast1
   GKE_CLUSTER: devsecol-cluster
   IMAGE: ricardo-gke-test
-  REGISTRY_HOSTNAME: gcr.io
+  REGISTRY_HOSTNAME: asia.gcr.io
   DEPLOYMENT_NAME: ricardo-gke-test
   TF_SA_EMAIL: "terraform-editor@anz-insto-training.iam.gserviceaccount.com"
 
@@ -46,11 +46,6 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v2
-
-    - name: Activate SA
-      run: |
-        echo "${{ secrets.TF_SERVICE_ACCOUNT }}" | base64 -d > sa.json
-        gcloud auth activate-service-account --key-file sa.json
 
     # Setup gcloud CLI
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
