@@ -30,7 +30,7 @@ env:
   IMAGE: ricardo-gke-test
   REGISTRY_HOSTNAME: gcr.io
   DEPLOYMENT_NAME: ricardo-gke-test
-  TF_SA_EMAIL: terraform-editor@anz-insto-training.iam.gserviceaccount.com
+  TF_SA_EMAIL: "terraform-editor@anz-insto-training.iam.gserviceaccount.com"
 
 jobs:
   setup-build-publish-deploy:
@@ -51,7 +51,7 @@ jobs:
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
         version: '270.0.0'
-        service_account_email: ${{ $TF_SA_EMAIL }}
+        service_account_email: ${{ TF_SA_EMAIL }}
         service_account_key: ${{ secrets.TF_SERVICE_ACCOUNT }}
 
     # Configure docker to use the gcloud command-line tool as a credential helper
