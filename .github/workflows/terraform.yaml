@@ -59,14 +59,13 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: ./terraform
+
+    steps:
 
     # Checkout the repository to the GitHub Actions runner
-    steps:
     - name: Checkout
       uses: actions/checkout@v2
-
-    - name: Copy
-      run: cp gcp/* .
 
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token 
     - name: Setup Terraform
@@ -89,5 +88,11 @@ jobs:
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: "./TF_SERVICE_ACCOUNT.json"
+
+    # Terraform apply
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
       env:
         GOOGLE_APPLICATION_CREDENTIALS: "./TF_SERVICE_ACCOUNT.json"
