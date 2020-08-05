@@ -28,7 +28,7 @@ env:
   GKE_CLUSTER: devsecol-cluster
   GKE_PREFIX: ricardo
   IMAGE: ricardo-gke-test
-  DEPLOYMENT_NAME: ricardo-gke-test
+  DEPLOYMENT_NAME: nginx-deployment
   REGISTRY_HOSTNAME: asia.gcr.io
 
 jobs:
