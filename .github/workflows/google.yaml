@@ -27,7 +27,7 @@ env:
   GKE_ZONE: australia-southeast1
   GKE_CLUSTER: devsecol-cluster
   GKE_PREFIX: ricardo
-  IMAGE: ricardo-gke-test
+  IMAGE: ricardo-gke
   DEPLOYMENT_NAME: nginx-deployment
   REGISTRY_HOSTNAME: asia.gcr.io
 
@@ -97,14 +97,14 @@ jobs:
     # Change the image with the one created during the current job
     - name: Update development container image
       run: |
-        ../kustomize edit set image nginx=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE-development:${GITHUB_SHA}
+        ../../kustomize edit set image nginx=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE-development:${GITHUB_SHA}
         cat kustomization.yaml
       working-directory: ./src/overlays/development
 
     # Change the image with the one created during the current job
     - name: Update testing container image
       run: |
-        ../kustomize edit set image nginx=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE-testing:${GITHUB_SHA}
+        ../../kustomize edit set image nginx=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE-testing:${GITHUB_SHA}
         cat kustomization.yaml
       working-directory: ./src/overlays/testing
 
