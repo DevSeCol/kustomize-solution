@@ -6,3 +6,5 @@ patchesStrategicMerge:
 - deployment-replicaset.yaml
 resources:
   - namespace.yaml
+images:
+  - name: nginx
