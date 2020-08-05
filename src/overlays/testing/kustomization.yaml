@@ -1,5 +1,7 @@
 bases:
 - ../../base
-namespace: "richard-testing"
+namespace: richard-testing
 patchesStrategicMerge:
 - nginx-as-loadbalancer.yaml
+resources:
+  - namespace.yaml
