@@ -2,6 +2,7 @@ bases:
 - ../../base
 namespace: ricardo-testing
 patchesStrategicMerge:
-- nginx-as-loadbalancer.yaml
+- service-loadbalancer.yaml
+- deployment-replicaset.yaml
 resources:
   - namespace.yaml

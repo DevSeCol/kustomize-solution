@@ -91,7 +91,7 @@ jobs:
     # Change the image with the one created during the current job
     - name: Update base container image
       run: |
-        ../kustomize edit set image CHANGEME=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${GITHUB_SHA}
+        ../kustomize edit set image nginx=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${GITHUB_SHA}
         cat kustomization.yaml
       working-directory: ./src/base
 
