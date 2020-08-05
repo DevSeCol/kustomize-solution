@@ -1,7 +1,5 @@
 bases:
 - ../../base
-namespace: "ricardo-development"
+namespace: ricardo-development
 resources:
 - namespace.yaml
-images:
-- name: nginx

@@ -5,6 +5,4 @@ patchesStrategicMerge:
 - service-loadbalancer.yaml
 - deployment-replicaset.yaml
 resources:
-  - namespace.yaml
-images:
-  - name: nginx
+- namespace.yaml
