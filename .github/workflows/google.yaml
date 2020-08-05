@@ -101,6 +101,12 @@ jobs:
         cat kustomization.yaml
       working-directory: ./src/base
 
+    - name: Update development container image 2
+      run: |
+        ../../kustomize edit set image nginx=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE-development:${GITHUB_SHA}
+        cat kustomization.yaml
+      working-directory: ./src/overlays/development
+
     # Deploy the Docker image to the GKE cluster
     - name: Show differences between environments
       run: |
