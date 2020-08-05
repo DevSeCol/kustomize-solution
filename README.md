@@ -1,1 +1,2 @@
-# test-ricardo
+# kustomize-ricardo
+Kustomize example
