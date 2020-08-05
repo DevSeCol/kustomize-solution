@@ -98,7 +98,14 @@ jobs:
     - name: Deploy
       run: |
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
-        kubectl kustomize overlays/development
-        kubectl -k overlays/development
+        kubectl kustomize overlays/development | tee development.yaml
+        kubectl apply -k overlays/development
+        kubectl kustomize overlays/testing | tee testing.yaml
+        kubectl apply -k overlays/testing
+
+        echo "Differences between environments:"
+        diff development.yaml testing.yaml
+
+        echo "Deployment and services status:"
         kubectl rollout status deployment/$DEPLOYMENT_NAME -n $GKE_NAMESPACE
         kubectl get services -o wide -n $GKE_NAMESPACE
