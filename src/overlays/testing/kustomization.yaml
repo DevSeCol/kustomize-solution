@@ -1,5 +1,5 @@
 bases:
 - ../../base
-namespace: "richard-production"
+namespace: "richard-testing"
 patchesStrategicMerge:
 - nginx-as-loadbalancer.yaml
