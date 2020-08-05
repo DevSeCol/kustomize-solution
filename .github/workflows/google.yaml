@@ -26,7 +26,7 @@ env:
   GITHUB_SHA: ${{ github.sha }}
   GKE_ZONE: australia-southeast1
   GKE_CLUSTER: devsecol-cluster
-  #GKE_NAMESPACE: richard
+  GKE_NAMESPACE: ricardo-development
   IMAGE: ricardo-gke-test
   REGISTRY_HOSTNAME: asia.gcr.io
   DEPLOYMENT_NAME: ricardo-gke-test
@@ -99,5 +99,5 @@ jobs:
         cd ..
         ./kustomize build overlays/development
         ./kustomize build overlays/development | kubectl apply -f -
-        kubectl rollout status deployment/$DEPLOYMENT_NAME
-        kubectl get services -o wide
+        kubectl rollout status deployment/$DEPLOYMENT_NAME -n $GKE_NAMESPACE
+        kubectl get services -o wide -n $GKE_NAMESPACE
