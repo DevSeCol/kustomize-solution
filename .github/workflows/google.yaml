@@ -94,8 +94,14 @@ jobs:
       run: |
         curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
 
-    # Change the image with the one created during the current job
+    # Change the image for the one created during the current job
     - name: Update base container image
+      run: |
+        ../kustomize edit set image nginx=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE-development:${GITHUB_SHA}
+        cat kustomization.yaml
+      working-directory: ./src/base
+
+    - name: Update development container image 2
       run: |
         ../../kustomize edit set image nginx=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE-development:${GITHUB_SHA}
         cat kustomization.yaml
