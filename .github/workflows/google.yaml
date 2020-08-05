@@ -92,6 +92,7 @@ jobs:
     - name: Update base container image
       run: |
         ../kustomize edit set image $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${GITHUB_SHA}
+        cat kustomization.yaml
       working-directory: ./src/base
 
     # Deploy the Docker image to the GKE cluster
