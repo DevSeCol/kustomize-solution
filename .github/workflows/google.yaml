@@ -70,6 +70,7 @@ jobs:
           --build-arg ENVIRONMENT="Testing" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" .
+
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |
@@ -96,9 +97,9 @@ jobs:
     # Change the image with the one created during the current job
     - name: Update base container image
       run: |
-        ../kustomize edit set image nginx=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE-development:${GITHUB_SHA}
+        ../../kustomize edit set image nginx=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE-development:${GITHUB_SHA}
         cat kustomization.yaml
-      working-directory: ./src/base
+      working-directory: ./src/overlays/development
 
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
