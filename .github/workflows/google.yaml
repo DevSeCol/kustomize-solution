@@ -97,39 +97,38 @@ jobs:
     # Change the image with the one created during the current job
     - name: Update development container image
       run: |
-        pwd
-        ls
+        ../kustomize edit set image nginx=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE-development:${GITHUB_SHA}
         cat kustomization.yaml
-        ../../kustomize edit set image nginx=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE-development:${GITHUB_SHA}
-        cat kustomization.yaml
-      working-directory: ./src/overlays/development
-
-    # Change the image with the one created during the current job
-    - name: Update testing container image
-      run: |
-        ../../kustomize edit set image nginx=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE-testing:${GITHUB_SHA}
-        cat kustomization.yaml
-      working-directory: ./src/overlays/testing
+      working-directory: ./src/base
 
     # Deploy the Docker image to the GKE cluster
-    - name: Deploy
+    - name: Show differences between environments
       run: |
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
         kubectl kustomize overlays/development | tee development.yaml
-        kubectl apply -k overlays/development
         kubectl kustomize overlays/testing | tee testing.yaml
-        kubectl apply -k overlays/testing
-
         echo "================"
         echo "Differences between environments:"
         diff development.yaml testing.yaml || echo "There are differences between Development and Testing"
 
+    - name: Deploy Development
+      run: |
         echo "================"
+        kubectl apply -k overlays/development
         echo "Deployment and services status in the Development environment:"
         kubectl rollout status deployment/$DEPLOYMENT_NAME -n $GKE_PREFIX-development
         kubectl get services -o wide -n $GKE_PREFIX-development
 
+    - name: Update testing container image
+      run: |
+        ../kustomize edit set image nginx=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE-testing:${GITHUB_SHA}
+        cat kustomization.yaml
+      working-directory: ./src/base
+
+    - name: Deploy Testing
+      run: |
         echo "================"
+        kubectl apply -k overlays/testing
         echo "Deployment and services status in the Testing environment:"
         kubectl rollout status deployment/$DEPLOYMENT_NAME -n $GKE_PREFIX-testing
         kubectl get services -o wide -n $GKE_PREFIX-testing
